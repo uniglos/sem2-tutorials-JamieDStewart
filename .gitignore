@@ -1,4 +1,4 @@
-#git ignore file for CT4028 Assessment Repo
+#git ignore file for CT4101 Assessment Repo
 
 # Ignore VS2019 generated folder
 .vs/
@@ -46,3 +46,4 @@
 **/obj/
 **/bin/
 **/lib/
+**/libs/
