@@ -47,3 +47,9 @@
 **/bin/
 **/lib/
 **/libs/
+/004_Static_Library/include/Matrix4.h
+/004_Static_Library/source/Matrix4.cpp
+/015_RayTracer_Global_Illumination
+/015_RayTracer_Shadows
+/016_RayTracer_Materials
+/014_RayTracer_Creating_a_Scene

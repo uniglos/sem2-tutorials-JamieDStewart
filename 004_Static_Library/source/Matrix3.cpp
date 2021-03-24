@@ -185,7 +185,7 @@ Matrix3 Matrix3::operator*(const Matrix3& a_m3) const
 {
 	return Matrix3(	m_11 * a_m3.m_11 + m_12 * a_m3.m_21 + m_13 * a_m3.m_31,
 					m_21 * a_m3.m_11 + m_22 * a_m3.m_21 + m_23 * a_m3.m_31,
-					m_32 * a_m3.m_11 + m_32 * a_m3.m_21 + m_33 * a_m3.m_31,
+					m_31 * a_m3.m_11 + m_32 * a_m3.m_21 + m_33 * a_m3.m_31,
 
 					m_11 * a_m3.m_12 + m_12 * a_m3.m_22 + m_13 * a_m3.m_32,
 					m_21 * a_m3.m_12 + m_22 * a_m3.m_22 + m_23 * a_m3.m_32,
@@ -241,4 +241,45 @@ void Matrix3::Identity()
 	m_11 = 1.0f;	m_12 = 0.0f;	m_13 = 0.0f;
 	m_21 = 0.0f;	m_22 = 1.0f;	m_23 = 0.0f;
 	m_31 = 0.0f;	m_32 = 0.0f;	m_33 = 1.0f;
+}
+//============================================================================================
+//\ Determinant
+//============================================================================================
+float Matrix3::Determinant() const
+{
+	//Calculate determinant by getting cross product of Row 2 & 3 in matrix
+	//Dot product of above result with row 1
+	//determinant = Dot(row1(m_11, m_12, m_13),
+	//				Cross(row2(m_21, m_22, m_23), row3(m_31, m_32, m_33)));
+	return (m_11 * (m_22 * m_33 - m_23 * m_32) +
+			m_12 * (m_23 * m_31 - m_21 * m_33) +
+			m_13 * (m_21 * m_32 - m_22 * m_31));
+}
+//\===========================================================================================
+//\ Inverse
+//\===========================================================================================
+bool Matrix3::Inverse()
+{
+
+	float fDeterminant = Determinant();
+	if (fDeterminant != 0.0f)
+	{
+		const float fInvDet = 1.f/fDeterminant;
+
+		Matrix3 mat = *this;
+		m_11 = (mat.m_22 * mat.m_33 - mat.m_23 * mat.m_32) * fInvDet;
+		m_12 = (mat.m_13 * mat.m_32 - mat.m_12 * mat.m_33) * fInvDet;
+		m_13 = (mat.m_12 * mat.m_23 - mat.m_13 * mat.m_22) * fInvDet;
+
+		m_21 = (mat.m_23 * mat.m_31 - mat.m_21 * mat.m_33) * fInvDet;
+		m_22 = (mat.m_11 * mat.m_33 - mat.m_13 * mat.m_31) * fInvDet;
+		m_23 = (mat.m_13 * mat.m_21 - mat.m_11 * mat.m_23) * fInvDet;
+
+		m_31 = (mat.m_21 * mat.m_32 - mat.m_22 * mat.m_31) * fInvDet;
+		m_32 = (mat.m_12 * mat.m_31 - mat.m_11 * mat.m_32) * fInvDet;
+		m_33 = (mat.m_11 * mat.m_22 - mat.m_12 * mat.m_21) * fInvDet;
+
+		return true;
+	}
+	return false;
 }

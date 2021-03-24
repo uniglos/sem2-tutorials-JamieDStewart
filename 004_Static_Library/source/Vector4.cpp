@@ -1,140 +1,116 @@
-#include "Vector3.h"
+#include "Vector4.h"
 #include <math.h>
 //\=============================================================================
 //\Default Constructor
 //\=============================================================================
-Vector3::Vector3()
+Vector4::Vector4()
 {
-	x = 0.f; y = 0.f; z = 0.f;
+	x = 0.f; y = 0.f; z = 0.f; w = 0.f;
 }
 //\=============================================================================
 //\ Constructor with X, Y Values
 //\=============================================================================
-Vector3::Vector3(const float a_x, const float a_y, const float a_z)
+Vector4::Vector4(const float a_x, const float a_y, const float a_z, const float a_w):
+	x(a_x), y(a_y), z(a_z), w(a_w)
+{}
+//\=============================================================================
+//\ Construct from Vector3
+//\=============================================================================
+Vector4::Vector4(const Vector3& a_v3, float a_w):
+	x(a_v3.x), y(a_v3.y), z(a_v3.z), w(a_w)
 {
-	x = a_x;
-	y = a_y;
-	z = a_z;
 }
 //\=============================================================================
 //\ Copy Constructor
 //\=============================================================================
-Vector3::Vector3(const Vector3& a_v3)
-{
-	x = a_v3.x;
-	y = a_v3.y;
-	z = a_v3.z;
-}
+Vector4::Vector4(const Vector4& a_v4):
+	x(a_v4.x), y(a_v4.y), z(a_v4.z), w(a_v4.w)
+{}
 //\=============================================================================
 //\ Destructor
 //\=============================================================================
-Vector3::~Vector3()
+Vector4::~Vector4()
 {
 	//nothing newed nothing deleted!
 }
 //\=============================================================================
 // Equivalence operators
 //\=============================================================================
-bool Vector3::operator ==(const Vector3& a_v3) const
+bool Vector4::operator ==(const Vector4& a_v4) const
 {
-	return (x == a_v3.x && y == a_v3.y && z == a_v3.z);
+	return (x == a_v4.x && y == a_v4.y && z == a_v4.z && w == a_v4.z);
 }
 
-bool Vector3::operator !=(const Vector3& a_v3) const
+bool Vector4::operator !=(const Vector4& a_v4) const
 {
-	return (x != a_v3.x || y != a_v3.y || z != a_v3.z);
+	return (x != a_v4.x || y != a_v4.y || z != a_v4.z || w != a_v4.w);
 }
 //\=============================================================================
 //\ Neg operator
 //\=============================================================================
-const Vector3 Vector3::operator-() const
+const Vector4 Vector4::operator-() const
 {
-	return Vector3(-x, -y, -z);
+	return Vector4(-x, -y, -z, -w);
 }
 //\=============================================================================
-//\ Overload Operators for Vector2 addition
+//\ Overload Operators for Vector4 addition
 //\=============================================================================
-Vector3 Vector3::operator+(const Vector3& a_v3) const
+Vector4 Vector4::operator+(const Vector4& a_v4) const
 {
-	return Vector3(x + a_v3.x, y + a_v3.y, z + a_v3.z);
-}
-Vector3& Vector3::operator +=(const Vector3& a_v3)
-{
-	x += a_v3.x;
-	y += a_v3.y;
-	z += a_v3.z;
-
-	return *this;
+	return Vector4(x + a_v4.x, y + a_v4.y, z + a_v4.z, w + a_v4.w);
 }
 
-Vector3 Vector3::operator+(const float a_scalar) const
+Vector4 Vector4::operator+(const float a_scalar) const
 {
-	return Vector3(x + a_scalar, y + a_scalar, z + a_scalar);
+	return Vector4(x + a_scalar, y + a_scalar, z + a_scalar, w + a_scalar);
 }
 //\=============================================================================
 //\ Overload Operators for Vector2 subtraction
 //\=============================================================================
-Vector3 Vector3::operator-(const Vector3& a_v3) const
+Vector4 Vector4::operator-(const Vector4& a_v4) const
 {
-	return Vector3(x - a_v3.x, y - a_v3.y, z - a_v3.z);
+	return Vector4(x - a_v4.x, y - a_v4.y, z - a_v4.z, w - a_v4.w);
 }
 
-Vector3 Vector3::operator-(const float a_scalar) const
+Vector4 Vector4::operator-(const float a_scalar) const
 {
-	return Vector3(x - a_scalar, y - a_scalar, z - a_scalar);
+	return Vector4(x - a_scalar, y - a_scalar, z - a_scalar, w - a_scalar);
 }
 //\=============================================================================
 //\ Overload Operators for Vector2 multiplication
 //\=============================================================================
-Vector3 Vector3::operator*(const float& a_scalar) const
+Vector4 Vector4::operator*(const float& a_scalar) const
 {
-	return Vector3(x * a_scalar, y * a_scalar, z * a_scalar);
-}
-
-Vector3 Vector3::operator*(const Vector3& a_v3) const
-{
-	return Vector3(x * a_v3.x, y * a_v3.y, z * a_v3.z);
+	return Vector4(x * a_scalar, y * a_scalar, z * a_scalar, w * a_scalar);
 }
 //\=============================================================================
 //\Dot Product - projection of one vector along another 
 //\              or the cosine value of the angle between two vectors
 //\=============================================================================
-float Vector3::Dot(const Vector3& a_v3) const
+float Vector4::Dot(const Vector4& a_v4) const
 {
-	return (x * a_v3.x + y * a_v3.y + z * a_v3.z);
+	return (x * a_v4.x + y * a_v4.y + z * a_v4.z + w * a_v4.w);
 }
 //\=============================================================================
 //\ Dot Product - Friend function allows use to do the following in code
 //\               Vector2 result = Dot( vec2A, vec2B );
 //\				  notice the lack of "Vector2::" prior to the function name
 //\=============================================================================
-float Dot(const Vector3& a_v3A, const Vector3& a_v3B)
+float Dot(const Vector4& a_v4A, const Vector4& a_v4B)
 {
-	return a_v3A.Dot(a_v3B);
-}
-//\=========================================================================
-//\ Cross Product
-//\=========================================================================
-Vector3 Vector3::Cross(const Vector3& a_v3) const
-{
-	return Vector3(y * a_v3.z - a_v3.y * z, z * a_v3.x - x * a_v3.z, x * a_v3.y - y * a_v3.x);
-}
-
-Vector3	Cross(const Vector3& a_v3a, const Vector3& a_v3b)
-{
-	return a_v3a.Cross(a_v3b);
+	return a_v4A.Dot(a_v4B);
 }
 //\=============================================================================
 //\ Get the length (magnitude) of the vector
 //\=============================================================================
-float Vector3::Length() const
+float Vector4::Length() const
 {
-	return sqrtf(x * x + y * y + z * z);	//to access SQRTF #include <math.h>
+	return sqrtf(x * x + y * y + z * z + w * w);	//to access SQRTF #include <math.h>
 }
 //\============================================================================
 //\ Normalise the Vector
 //\============================================================================
-void Vector3::Normalize()
+void Vector4::Normalize()
 {
 	float length = Length();
 	if (length > 0.f)			//if this is false vector has no length
@@ -143,29 +119,21 @@ void Vector3::Normalize()
 		x *= invLen;
 		y *= invLen;
 		z *= invLen;
+		w *= invLen;
 	}
 }
-
-Vector3 Normalize(const Vector3& a_vec3)
+Vector4 Normalize(const Vector4& a_vec4)
 {
-	float mag = a_vec3.Length();
+	float mag = a_vec4.Length();
 	if (mag > 0.f) {
-		return Vector3(a_vec3.x / mag, a_vec3.y / mag, a_vec3.z / mag);
+		return Vector4(a_vec4.x / mag, a_vec4.y / mag, a_vec4.z / mag, a_vec4.w / mag);
 	}
-	return Vector3(0.f, 0.f, 0.f);
+	return Vector4(0.f, 0.f, 0.f, 0.f);
 }
 //\=========================================================================
 //\ Linear Interpolate
 //\=========================================================================
-Vector3	Lerp(const Vector3& a_v3A, const Vector3& a_v3B, const float a_t)
+Vector4	Lerp(const Vector4& a_v4A, const Vector4& a_v4B, const float a_t)
 {
-	return  (a_v3B - a_v3A) * a_t + a_v3A;
-}
-//\=========================================================================
-//\ Reflect one vector around another
-//\=========================================================================
-Vector3	Reflect(const Vector3& a_v3A, const Vector3& a_v3B)
-{
-	Vector3 reflect = a_v3A - (a_v3B * 2.f * Dot(a_v3A, a_v3B));
-	return reflect;
+	return  (a_v4B - a_v4A) * a_t + a_v4A;
 }

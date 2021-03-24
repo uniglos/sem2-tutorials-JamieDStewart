@@ -1,62 +1,58 @@
 #pragma once
+#include "Vector3.h"
 //\=============================================================================
-// Vector3 - 3 dimensional vector class
+// Vector4 - 4 dimensional vector class
 //\=============================================================================
-class Vector3
+class Vector4
 {
 public:
 	//\=========================================================================
 	//\Member variables
 	//\=========================================================================
-	float x; float y; float z;
+	float x; float y; float z; float w;
 #pragma region Constructors/Destructors
 	//\=========================================================================
 	//\Constructors
 	//\=========================================================================
-	Vector3();
-	Vector3(const float a_x, const float a_y, const float a_z);
-	Vector3(const Vector3& a_v3);
+	Vector4();
+	Vector4(const float a_x, const float a_y, const float a_z, const float a_w);
+	Vector4(const Vector3& a_v4, float a_w = 0.f );
+	Vector4(const Vector4& a_v4);
 	//\=========================================================================
 	//\Destructor
 	//\=========================================================================
-	~Vector3();
+	~Vector4();
 #pragma endregion
+	Vector3			xyz() { return Vector3(x, y, z); }
 #pragma region Opeartor Overloads
 	//\=========================================================================
 	//\ Equivalence Operators
 	//\=========================================================================
-	bool			operator ==			(const Vector3& a_v3) const;
-	bool			operator !=			(const Vector3& a_v3) const;
+	bool			operator ==			(const Vector4& a_v4) const;
+	bool			operator !=			(const Vector4& a_v4) const;
 	//\=========================================================================
 	//\ Negate Operator
 	//\=========================================================================
-	const Vector3	operator - () const;
+	const Vector4	operator - () const;
 	//\=========================================================================
 	//\ Addition Operators
 	//\=========================================================================
-	Vector3			operator +			(const Vector3& a_v3) const;
-	Vector3&		operator +=			(const Vector3& a_v3);
-	Vector3			operator +			(const float a_scalar) const;
+	Vector4			operator +			(const Vector4& a_v4) const;
+	Vector4			operator +			(const float a_scalar) const;
 	//\=========================================================================
 	//\ subtraction Operators
 	//\=========================================================================
-	Vector3			operator -			(const Vector3& a_v3) const;
-	Vector3			operator -			(const float a_scalar) const;
+	Vector4			operator -			(const Vector4& a_v4) const;
+	Vector4			operator -			(const float a_scalar) const;
 	//\=========================================================================
 	//\ Multiplication Operators
 	//\=========================================================================
-	Vector3			operator *			(const float& a_scalar) const;
-	Vector3			operator *			(const Vector3& a_scalar) const;
+	Vector4			operator *			(const float& a_scalar) const;
 	//\=========================================================================
 	//\ Dot Product Functionality
 	//\=========================================================================
-	float					Dot(const Vector3& a_v3) const;
-	friend float			Dot(const Vector3& a_v3A, const Vector3& a_v3B);
-	//\=========================================================================
-	//\ Cross Product
-	//\=========================================================================
-	Vector3					Cross(const Vector3& a_v3) const;
-	friend Vector3			Cross(const Vector3& a_v3a, const Vector3& a_v3b);
+	float					Dot(const Vector4& a_v4) const;
+	friend float			Dot(const Vector4& a_v4A, const Vector4& a_v4B);
 	//\=========================================================================
 	//\ Get Length of Vector
 	//\=========================================================================
@@ -65,15 +61,10 @@ public:
 	//\ Normalise the Vector - modifies member variables (non const function)
 	//\=========================================================================
 	void					Normalize();
-	friend	Vector3			Normalize(const Vector3& a_vec);
+	friend	Vector4			Normalize(const Vector4& a_vec);
 	//\=========================================================================
 	//\ Linear Interpolate
 	//\=========================================================================
-	friend Vector3			Lerp(const Vector3& a_v3A, const Vector3& a_v3B, const float a_t);
-	//\=========================================================================
-	//\ Reflect one vector around another
-	//\=========================================================================
-	friend Vector3			Reflect(const Vector3& a_v3A, const Vector3& a_v3B);
-
+	friend Vector4			Lerp(const Vector4& a_v4A, const Vector4& a_v4B, const float a_t);
 #pragma endregion
 };
